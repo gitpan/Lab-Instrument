@@ -1,15 +1,18 @@
 #!/usr/bin/perl
-#$Id: Build.PL 85 2005-11-10 23:35:43Z schroeer $
+#$Id: Build.PL 268 2005-12-11 02:41:24Z schroeer $
 
 use strict;
 use Module::Build;
 
 my $build=Module::Build->new(
-    module_name => 'Lab::Instrument', 
-    license     => 'perl',
-    requires    => {
-        'Lab::VISA'   => 0,
+    module_name         => 'Lab::Instrument',
+    dist_version_from   => 'README',
+    license             => 'perl',
+    requires            => {
+        'Lab::VISA'   => '1.11',
+        'Time::HiRes' => 0,
     },
+    test_files          => ['t/2_visa-instrument.t','t/3_source.t','t/4_dummysource.t'],
     script_files    	=> [],
     create_readme   	=> 0,
     create_makefile_pl	=> 'passthrough',

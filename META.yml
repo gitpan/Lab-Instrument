@@ -1,8 +1,39 @@
---- #YAML:1.0
+---
 name: Lab-Instrument
-version: 0.01_085
+version: 1.00
 author:
   - Daniel Schroeer <daniel@daimla1.de>
-abstract: Worker class for VISA based instrument classes
+abstract: ~
 license: perl
-generated_by: Module::Build version 0.2611, without YAML.pm
+requires:
+  Lab::VISA: 1.11
+  Time::HiRes: 0
+provides:
+  Lab::Instrument:
+    file: lib/Lab/Instrument.pm
+    version: 1.0272
+  Lab::Instrument::Agilent81134A:
+    file: lib/Lab/Instrument/Agilent81134A.pm
+    version: 0.0272
+  Lab::Instrument::Dummysource:
+    file: lib/Lab/Instrument/Dummysource.pm
+    version: 0.0272
+  Lab::Instrument::HP34401A:
+    file: lib/Lab/Instrument/HP34401A.pm
+    version: 0.0272
+  Lab::Instrument::HP34970A:
+    file: lib/Lab/Instrument/HP34970A.pm
+    version: 0.0272
+  Lab::Instrument::IPS120_10:
+    file: lib/Lab/Instrument/IPS120_10.pm
+    version: 0.0000
+  Lab::Instrument::KnickS252:
+    file: lib/Lab/Instrument/KnickS252.pm
+    version: 0.0272
+  Lab::Instrument::Source:
+    file: lib/Lab/Instrument/Source.pm
+    version: 1.0268
+  Lab::Instrument::Yokogawa7651:
+    file: lib/Lab/Instrument/Yokogawa7651.pm
+    version: 0.0272
+generated_by: Module::Build version 0.2611

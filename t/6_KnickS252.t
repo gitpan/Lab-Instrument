@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-#$Id: 6_KnickS252.t 75 2005-11-09 23:24:29Z schroeer $
+#$Id: 6_KnickS252.t 201 2005-11-19 00:21:02Z schroeer $
 
 use strict;
 use Test::More tests => 3;

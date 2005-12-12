@@ -1,11 +1,11 @@
-#$Id: Instrument.pm 85 2005-11-10 23:35:43Z schroeer $
+#$Id: Instrument.pm 272 2005-12-12 00:56:50Z schroeer $
 
 package Lab::Instrument;
 
 use strict;
-use VISA;
+use Lab::VISA;
 
-our $VERSION = sprintf("0.01_%03d", q$Revision: 85 $ =~ / (\d+) /);
+our $VERSION = sprintf("1.%04d", q$Revision: 272 $ =~ / (\d+) /);
 
 sub new {
     my $proto = shift;
@@ -15,8 +15,8 @@ sub new {
 
     my @args=@_;
     
-    my ($status,$res)=VISA::viOpenDefaultRM();
-    if ($status != $VISA::VI_SUCCESS) { die "Cannot open resource manager: $status";}
+    my ($status,$res)=Lab::VISA::viOpenDefaultRM();
+    if ($status != $Lab::VISA::VI_SUCCESS) { die "Cannot open resource manager: $status";}
     $self->{default_rm}=$res;
 
     my $resource_name;
@@ -35,42 +35,42 @@ sub new {
     } elsif ($args[0] =~ /ASRL/) {  # serial
         $resource_name=$args[0]."::INSTR";
     } else {    #find
-        ($status,my $listhandle,my $count,my $description)=VISA::viFindRsrc($self->{default_rm},'?*INSTR');
-        if ($status != $VISA::VI_SUCCESS) { die "Cannot find resources: $status";}  
+        ($status,my $listhandle,my $count,my $description)=Lab::VISA::viFindRsrc($self->{default_rm},'?*INSTR');
+        if ($status != $Lab::VISA::VI_SUCCESS) { die "Cannot find resources: $status";}  
         my $found;
         while ($count-- > 0) {
             print STDERR  "Lab::Instrument: checking $description\n";
-            ($status,my $instrument)=VISA::viOpen($self->{default_rm},$description,$VISA::VI_NULL,$VISA::VI_NULL);
-            if ($status != $VISA::VI_SUCCESS) { die "Cannot open instrument $description. status: $status";}
+            ($status,my $instrument)=Lab::VISA::viOpen($self->{default_rm},$description,$Lab::VISA::VI_NULL,$Lab::VISA::VI_NULL);
+            if ($status != $Lab::VISA::VI_SUCCESS) { die "Cannot open instrument $description. status: $status";}
             my $cmd='*IDN?';
             $self->{instr}=$instrument;
             my $result=$self->Query($cmd);
-            $status=VISA::viClose($instrument);
-            if ($status != $VISA::VI_SUCCESS) { die "Cannot close instrument $description. status: $status";}
+            $status=Lab::VISA::viClose($instrument);
+            if ($status != $Lab::VISA::VI_SUCCESS) { die "Cannot close instrument $description. status: $status";}
             print STDERR  "Lab::Instrument: id $result\n";
             if ($result =~ $args[0]) {
                 $resource_name=$description;
                 $count=0;
             }
             if ($count) {
-                ($status, $description)=VISA::viFindNext($listhandle);
-                if ($status != $VISA::VI_SUCCESS) { die "Cannot find next instrument: $status";}
+                ($status, $description)=Lab::VISA::viFindNext($listhandle);
+                if ($status != $Lab::VISA::VI_SUCCESS) { die "Cannot find next instrument: $status";}
             }
         }
-        $status=VISA::viClose($listhandle);
-        if ($status != $VISA::VI_SUCCESS) { die "Cannot close find list: $status";}     
+        $status=Lab::VISA::viClose($listhandle);
+        if ($status != $Lab::VISA::VI_SUCCESS) { die "Cannot close find list: $status";}     
     }
     
     if ($resource_name) {
-        ($status,my $instrument)=VISA::viOpen($self->{default_rm},$resource_name,$VISA::VI_NULL,$VISA::VI_NULL);
-        if ($status != $VISA::VI_SUCCESS) { die "Cannot open instrument $resource_name. status: $status";}
+        ($status,my $instrument)=Lab::VISA::viOpen($self->{default_rm},$resource_name,$Lab::VISA::VI_NULL,$Lab::VISA::VI_NULL);
+        if ($status != $Lab::VISA::VI_SUCCESS) { die "Cannot open instrument $resource_name. status: $status";}
         $self->{instr}=$instrument;
         
-#       $status=VISA::viClear($self->{instr});
-#       if ($status != $VISA::VI_SUCCESS) { die "Error while clearing instrument: $status";}
+#       $status=Lab::VISA::viClear($self->{instr});
+#       if ($status != $Lab::VISA::VI_SUCCESS) { die "Error while clearing instrument: $status";}
         
-        $status=VISA::viSetAttribute($self->{instr}, $VISA::VI_ATTR_TMO_VALUE, 3000);
-        if ($status != $VISA::VI_SUCCESS) { die "Error while setting timeout value: $status";}
+        $status=Lab::VISA::viSetAttribute($self->{instr}, $Lab::VISA::VI_ATTR_TMO_VALUE, 3000);
+        if ($status != $Lab::VISA::VI_SUCCESS) { die "Error while setting timeout value: $status";}
     
         return $self;
     }
@@ -80,30 +80,34 @@ sub new {
 sub Clear {
     my $self=shift;
     
-    my $status=VISA::viClear($self->{instr});
-    if ($status != $VISA::VI_SUCCESS) { die "Error while clearing instrument: $status";}
+    my $status=Lab::VISA::viClear($self->{instr});
+    if ($status != $Lab::VISA::VI_SUCCESS) { die "Error while clearing instrument: $status";}
 }
 
 sub Write {
     my $self=shift;
     my $cmd=shift;
-    my ($status, $write_cnt)=VISA::viWrite($self->{instr},
-                                           $cmd,
-                                           length($cmd));
-    if ($status != $VISA::VI_SUCCESS) { die "Error while writing: $status";}
+    my ($status, $write_cnt)=Lab::VISA::viWrite(
+        $self->{instr},
+        $cmd,
+        length($cmd)
+    );
+    if ($status != $Lab::VISA::VI_SUCCESS) { die "Error while writing: $status";}
     return $write_cnt;
 }
 
 sub Query {
     my $self=shift;
     my $cmd=shift;
-    my ($status, $write_cnt)=VISA::viWrite($self->{instr},
-                                           $cmd,
-                                           length($cmd));
-    if ($status != $VISA::VI_SUCCESS) { die "Error while writing: $status";}
+    my ($status, $write_cnt)=Lab::VISA::viWrite(
+        $self->{instr},
+        $cmd,
+        length($cmd)
+    );
+    if ($status != $Lab::VISA::VI_SUCCESS) { die "Error while writing: $status";}
     
-    ($status,my $result,my $read_cnt)=VISA::viRead($self->{instr},300);
-    if ($status != $VISA::VI_SUCCESS) { die "Error while reading: $status";}
+    ($status,my $result,my $read_cnt)=Lab::VISA::viRead($self->{instr},300);
+    if ($status != $Lab::VISA::VI_SUCCESS) { die "Error while reading: $status";}
     return substr($result,0,$read_cnt);
 }
 
@@ -114,26 +118,28 @@ sub Handle {
 
 sub DESTROY {
     my $self=shift;
-    my $status=VISA::viClose($self->{instr});
-    $status=VISA::viClose($self->{default_rm});
+    my $status=Lab::VISA::viClose($self->{instr});
+    $status=Lab::VISA::viClose($self->{default_rm});
 }
 
 1;
 
 =head1 NAME
 
-Lab::Instrument - Worker class for VISA based instrument classes
+Lab::Instrument - General VISA based instrument
 
 =head1 SYNOPSIS
 
  use Lab::Instrument;
  
- my $hp22=  new Lab::Instrument(0,22);
- my $id=$hp22->Query('*IDN?');
+ my $hp22 =  new Lab::Instrument(0,22); # gpib board 0, address 22
+ print $hp22->Query('*IDN?');
 
 =head1 DESCRIPTION
 
-This class describes a general visa based instrument.
+C<Lab::Instrument> offers an abstract interface to an instrument, that is connected via
+GPIB, serial connection or ethernet. It provides general C<read>, C<write> and C<query> methods,
+and more.
 
 It can be used either directly by the laborant (programmer) to work with
 an instrument that doesn't have its own perl class
@@ -146,7 +152,8 @@ actual visa work. (All the instruments in the default package do so.)
 =head2 new
 
  $instrument=new Lab::Instrument($gpib_board,$gpib_addr);
-
+ $instrument2=new Lab::Instrument({GPIB_board => $board, GPIB_address => $addr});
+ 
 =head1 METHODS
 
 =head2 Write
@@ -173,15 +180,13 @@ Probably many.
 
 =over 4
 
-=item VISA
-
-The Lab::Instrument class uses the VISA module (L<VISA>).
+=item L<Lab::VISA>
 
 =back
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: Instrument.pm 85 2005-11-10 23:35:43Z schroeer $
+This is $Id: Instrument.pm 272 2005-12-12 00:56:50Z schroeer $
 
 Copyright 2004/2005 Daniel Schröer (L<http://www.danielschroeer.de>)
 

@@ -1,11 +1,11 @@
-#$Id: HP34970A.pm 85 2005-11-10 23:35:43Z schroeer $
+#$Id: HP34970A.pm 272 2005-12-12 00:56:50Z schroeer $
 
 package Lab::Instrument::HP34970A;
 
 use strict;
 use Lab::Instrument;
 
-our $VERSION = sprintf("0.%04d", q$Revision: 85 $ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision: 272 $ =~ / (\d+) /);
 
 sub new {
     my $proto = shift;
@@ -102,7 +102,7 @@ sub scroll_message {
 
 =head1 NAME
 
-Lab::Instrument::HP34401A - a HP 34401A digital multimeter
+Lab::Instrument::HP34401A - a HP/Agilent 34401A digital multimeter
 
 =head1 SYNOPSIS
 
@@ -224,7 +224,7 @@ The HP34401A uses the Lab::Instrument class (L<Lab::Instrument>).
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: HP34970A.pm 85 2005-11-10 23:35:43Z schroeer $
+This is $Id: HP34970A.pm 272 2005-12-12 00:56:50Z schroeer $
 
 Copyright 2004 Daniel Schröer (L<http://www.danielschroeer.de>)
 

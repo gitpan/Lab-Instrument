@@ -1,18 +1,19 @@
-#$Id: KnickS252.pm 85 2005-11-10 23:35:43Z schroeer $
+#$Id: KnickS252.pm 272 2005-12-12 00:56:50Z schroeer $
 
 package Lab::Instrument::KnickS252;
 use strict;
 use Lab::Instrument;
-use Lab::Instrument::SafeSource;
+use Lab::Instrument::Source;
 
-our $VERSION = sprintf("0.%04d", q$Revision: 85 $ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision: 272 $ =~ / (\d+) /);
 
-our @ISA=('Lab::Instrument::SafeSource');
+our @ISA=('Lab::Instrument::Source');
 
 my $default_config={
     gate_protect            => 0,
+    gp_max_volt_per_second  => 0.002,
     gp_max_volt_per_step    => 0.0005,
-    gp_max_volt_per_second  => 0.002
+    gp_max_step_per_second  => 2,
 };
 
 sub new {
@@ -34,7 +35,7 @@ sub _set_voltage {
     $self->{vi}->Write($cmd);
 }
 
-sub get_voltage {
+sub _get_voltage {
     my $self=shift;
     my $cmd="R OUT\n";
     my $result=$self->{vi}->Query($cmd);
@@ -63,7 +64,7 @@ sub get_range {
 
 =head1 NAME
 
-Lab::Instrument::KnickS252 - a Knick S 252 DC source
+Lab::Instrument::KnickS252 - Knick S 252 DC source
 
 =head1 SYNOPSIS
 
@@ -131,7 +132,7 @@ Inherits from SafeSource (L<SafeSource>).
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: KnickS252.pm 85 2005-11-10 23:35:43Z schroeer $
+This is $Id: KnickS252.pm 272 2005-12-12 00:56:50Z schroeer $
 
 Copyright 2004/2005 Daniel Schröer (L<http://www.danielschroeer.de>)
 
