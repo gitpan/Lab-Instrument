@@ -1,18 +1,19 @@
-#$Id: Yokogawa7651.pm 272 2005-12-12 00:56:50Z schroeer $
+#$Id: Yokogawa7651.pm 445 2006-06-25 21:07:02Z schroeer $
 
 package Lab::Instrument::Yokogawa7651;
 use strict;
 use Lab::Instrument;
 use Lab::Instrument::Source;
 
-our $VERSION = sprintf("0.%04d", q$Revision: 272 $ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision: 445 $ =~ / (\d+) /);
 
 our @ISA=('Lab::Instrument::Source');
 
 my $default_config={
-    gate_protect            => 0,
-    gp_max_volt_per_second  => 0.0015,
-    gp_max_volt_per_step    => 0.0004,
+    gate_protect            => 1,
+    qp_equal_level          => 1e-5,
+    gp_max_volt_per_second  => 0.002,
+    gp_max_volt_per_step    => 0.001,
     gp_max_step_per_second  => 2,
 };
 
@@ -150,9 +151,7 @@ sub get_status {
         unstable    error   execution   setting/;
     my %result;
     for (0..7) {
-        if ($status&128) {
-            $result{$flags[$_]}=1;
-        }
+        $result{$flags[$_]}=$status&128;
         $status<<=1;
     }
     return %result;
@@ -174,6 +173,10 @@ Lab::Instrument::Yokogawa7651 - Yokogawa 7651 DC source
     print $gate14->get_voltage();
 
 =head1 DESCRIPTION
+
+The Lab::Instrument::Yokogawa7651 class implements an interface to the
+7651 voltage and current source by Yokogawa. This class derives from
+L<Lab::Instrument::Source> and provides all functionality described there.
 
 =head1 CONSTRUCTORS
 
@@ -201,11 +204,20 @@ Lab::Instrument::Yokogawa7651 - Yokogawa 7651 DC source
 
 =head2 get_info()
 
+Returns the information provided by the instrument's 'OS' command.
+
 =head2 output_on()
+
+Sets the output switch to on.
 
 =head2 output_off()
 
+Sets the output switch to off. The instrument outputs no voltage
+or current then, no matter what voltage you set.
+
 =head2 get_output()
+
+Returns the status of the output switch (0 or 1).
 
 =head2 initialize()
 
@@ -214,6 +226,19 @@ Lab::Instrument::Yokogawa7651 - Yokogawa 7651 DC source
 =head2 set_current_limit($limit)
 
 =head2 get_status()
+
+Returns a hash with the following keys:
+
+    CAL_switch
+    memory_card
+    calibration_mode
+    output
+    unstable
+    error
+    execution
+    setting
+    
+The value for each key is either 0 or 1, indicating the status of the instrument.
 
 =head1 INSTRUMENT SPECIFICATIONS
 
@@ -320,7 +345,7 @@ The Yokogawa7651 class is a SafeSource (L<SafeSource>)
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: Yokogawa7651.pm 272 2005-12-12 00:56:50Z schroeer $
+This is $Id: Yokogawa7651.pm 445 2006-06-25 21:07:02Z schroeer $
 
 Copyright 2004 Daniel Schröer (L<http://www.danielschroeer.de>)
 

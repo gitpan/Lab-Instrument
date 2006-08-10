@@ -1,10 +1,10 @@
-#$Id: Dummysource.pm 272 2005-12-12 00:56:50Z schroeer $
+#$Id: Dummysource.pm 476 2006-08-10 22:18:01Z schroeer $
 
 package Lab::Instrument::Dummysource;
 use strict;
 use Lab::Instrument::Source;
 
-our $VERSION = sprintf("0.%04d", q$Revision: 272 $ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision: 476 $ =~ / (\d+) /);
 
 our @ISA=('Lab::Instrument::Source');
 
@@ -15,6 +15,7 @@ my $default_config={
     gp_max_step_per_second  => 2,
     gp_min_volt             => -1,
     gp_max_volt             => 1,
+    gp_equal_level          => 0.000001,
 };
 
 sub new {
@@ -64,8 +65,6 @@ sub get_range {
 
 Lab::Instrument::Dummysource - Dummy voltage source
 
-=head1 SYNOPSIS
-
 =head1 DESCRIPTION
 
 The Lab::Instrument::Dummysource class implements a dummy voltage source
@@ -83,9 +82,9 @@ Only developers can make use of this class.
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: Dummysource.pm 272 2005-12-12 00:56:50Z schroeer $
+This is $Id: Dummysource.pm 476 2006-08-10 22:18:01Z schroeer $
 
-Copyright 2005 Daniel Schröer (L<http://www.danielschroeer.de>)
+Copyright 2005-2006 Daniel Schröer (L<http://www.danielschroeer.de>)
 
 This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 

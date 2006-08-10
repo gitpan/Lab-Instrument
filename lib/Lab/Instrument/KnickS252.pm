@@ -1,18 +1,19 @@
-#$Id: KnickS252.pm 272 2005-12-12 00:56:50Z schroeer $
+#$Id: KnickS252.pm 445 2006-06-25 21:07:02Z schroeer $
 
 package Lab::Instrument::KnickS252;
 use strict;
 use Lab::Instrument;
 use Lab::Instrument::Source;
 
-our $VERSION = sprintf("0.%04d", q$Revision: 272 $ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision: 445 $ =~ / (\d+) /);
 
 our @ISA=('Lab::Instrument::Source');
 
 my $default_config={
-    gate_protect            => 0,
+    gate_protect            => 1,
+    qp_equal_level          => 1e-5,
     gp_max_volt_per_second  => 0.002,
-    gp_max_volt_per_step    => 0.0005,
+    gp_max_volt_per_step    => 0.001,
     gp_max_step_per_second  => 2,
 };
 
@@ -77,7 +78,9 @@ Lab::Instrument::KnickS252 - Knick S 252 DC source
 
 =head1 DESCRIPTION
 
-The Lab::Instrument::KnickS252 class implements an interface to the Knick S 252 dc calibrator.
+The Lab::Instrument::KnickS252 class implements an interface
+to the Knick S 252 dc calibrator. This class derives from
+L<Lab::Instrument::Source> and provides all functionality described there.
 
 =head1 CONSTRUCTOR
 
@@ -132,7 +135,7 @@ Inherits from SafeSource (L<SafeSource>).
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: KnickS252.pm 272 2005-12-12 00:56:50Z schroeer $
+This is $Id: KnickS252.pm 445 2006-06-25 21:07:02Z schroeer $
 
 Copyright 2004/2005 Daniel Schröer (L<http://www.danielschroeer.de>)
 

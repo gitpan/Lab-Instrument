@@ -1,11 +1,11 @@
-#$Id: HP34970A.pm 272 2005-12-12 00:56:50Z schroeer $
+#$Id: HP34970A.pm 275 2005-12-13 18:43:50Z schroeer $
 
 package Lab::Instrument::HP34970A;
 
 use strict;
 use Lab::Instrument;
 
-our $VERSION = sprintf("0.%04d", q$Revision: 272 $ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision: 275 $ =~ / (\d+) /);
 
 sub new {
     my $proto = shift;
@@ -102,14 +102,9 @@ sub scroll_message {
 
 =head1 NAME
 
-Lab::Instrument::HP34401A - a HP/Agilent 34401A digital multimeter
+Lab::Instrument::HP34970A - a HP/Agilent 34970A digital multimeter
 
 =head1 SYNOPSIS
-
-    use Lab::Instrument::HP34401A;
-    
-    my $hp=new Lab::Instrument::HP34401A(0,22);
-    print $hp->read_voltage_dc(10,0.00001);
 
 =head1 DESCRIPTION
 
@@ -130,37 +125,23 @@ and resolution.
 
 =item $range
 
-Range is given in terms of volts and can be [0.1|1|10|100|1000|MIN|MAX|DEF]. DEF is default.
+Range is given in terms of volts and can be C<[0.1|1|10|100|1000|MIN|MAX|DEF]>. C<DEF> is default.
 
 =item $resolution
 
-Resolution is given in terms of $range or [MIN|MAX|DEF]. $resolution=0.0001 means 4½ digits for example.
-The best resolution is 100nV: $range=0.1;$resolution=0.000001.
+Resolution is given in terms of C<$range> or C<[MIN|MAX|DEF]>.
+C<$resolution=0.0001> means 4 1/2 digits for example.
+The best resolution is 100nV: C<$range=0.1>;C<$resolution=0.000001>.
 
 =back
 
-=head2 read_voltage_ac
+=head2 conf_monitor
 
-    $datum=$hp->read_voltage_ac($range,$resolution);
+    $hp->conf_monitor(@channels);
 
-Preset and make an ac voltage measurement with the specified range
-and resolution. For ac measurements, resolution is actually fixed
-at 6½ digits. The resolution parameter only affects the front-panel display.
+=head2 read_monitor
 
-=head2 read_current_dc
-
-    $datum=$hp->read_current_dc($range,$resolution);
-
-Preset and make a dc current measurement with the specified range
-and resolution.
-
-=head2 read_current_ac
-
-    $datum=$hp->read_current_ac($range,$resolution);
-
-Preset and make an ac current measurement with the specified range
-and resolution. For ac measurements, resolution is actually fixed
-at 6½ digits. The resolution parameter only affects the front-panel display.
+    @channels=$hp->read_monitor();
 
 =head2 display_on
 
@@ -208,6 +189,10 @@ queue. Errors are retrieved in first-in-first out (FIFO) order.
 
 Reset the multimeter to its power-on configuration.
 
+=head2 scroll_message
+
+    $hp->scroll_message();
+
 =head1 CAVEATS/BUGS
 
 probably many
@@ -216,17 +201,15 @@ probably many
 
 =over 4
 
-=item Lab::Instrument
-
-The HP34401A uses the Lab::Instrument class (L<Lab::Instrument>).
+=item L<Lab::Instrument>
 
 =back
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: HP34970A.pm 272 2005-12-12 00:56:50Z schroeer $
+This is $Id: HP34970A.pm 275 2005-12-13 18:43:50Z schroeer $
 
-Copyright 2004 Daniel Schröer (L<http://www.danielschroeer.de>)
+Copyright 2004-2006 Daniel Schröer (L<http://www.danielschroeer.de>)
 
 This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 

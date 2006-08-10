@@ -1,9 +1,4 @@
 Build.PL
-examples/advanced_example.pl
-examples/basic_example.pl
-examples/broken_knick.pl
-examples/sweep_example.pl
-examples/yoko_demo.pl
 lib/Lab/Instrument.pm
 lib/Lab/Instrument/Agilent81134A.pm
 lib/Lab/Instrument/Dummysource.pm
@@ -12,14 +7,11 @@ lib/Lab/Instrument/HP34970A.pm
 lib/Lab/Instrument/IPS120_10.pm
 lib/Lab/Instrument/KnickS252.pm
 lib/Lab/Instrument/Source.pm
+lib/Lab/Instrument/SR780.pm
 lib/Lab/Instrument/Yokogawa7651.pm
 MANIFEST			This list of files
 README
-t/2_visa-instrument.t
 t/3_source.t
 t/4_dummysource.t
-t/5_hp34401a.t
-t/6_KnickS252.t
-t/7_Yokogawa7651.t
 META.yml
 Makefile.PL

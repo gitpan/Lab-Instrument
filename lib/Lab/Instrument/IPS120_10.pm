@@ -5,7 +5,7 @@ package Lab::Instrument::IPS120_10;
 use strict;
 use Lab::Instrument;
 
-our $VERSION = sprintf("0.%04d", q$Revision$ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision: 85 $ =~ / (\d+) /);
 
 sub new {
     my $proto = shift;
@@ -152,6 +152,8 @@ Lab::Instrument::IPS120_10 - IPS120-10 superconducting magnet power supply
 
 =head1 DESCRIPTION
 
+This module hasn't been tested! If it quenches your magnet, don't complain to me.
+
 =head1 CONSTRUCTORS
 
 =head2 new($gpib_board,$gpib_addr)
@@ -242,7 +244,8 @@ Lab::Instrument::IPS120_10 - IPS120-10 superconducting magnet power supply
 
 =head1 CAVEATS/BUGS
 
-probably many
+Probably many.
+This module hasn't been tested! If it quenches your magnet, I am not responsible.
 
 =head1 SEE ALSO
 
@@ -258,7 +261,7 @@ The IPS120_10 uses the Lab::Instrument class (L<Lab::Instrument>).
 
 This is $Id: IPS120_10.pm 85 2005-11-10 23:35:43Z schroeer $
 
-Copyright 2004 Daniel Schröer (L<http://www.danielschroeer.de>)
+Copyright 2004-2006 Daniel Schröer (L<http://www.danielschroeer.de>)
 
 This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 

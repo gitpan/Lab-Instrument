@@ -1,9 +1,9 @@
-#$Id: Source.pm 268 2005-12-11 02:41:24Z schroeer $
+#$Id: Source.pm 445 2006-06-25 21:07:02Z schroeer $
 package Lab::Instrument::Source;
 use strict;
 use Time::HiRes qw(usleep gettimeofday);
 
-our $VERSION = sprintf("1.%04d", q$Revision: 268 $ =~ / (\d+) /);
+our $VERSION = sprintf("1.%04d", q$Revision: 445 $ =~ / (\d+) /);
 
 sub new {
     my $proto = shift;
@@ -12,6 +12,7 @@ sub new {
     my $self = bless {}, $class;
 
     %{$self->{default_config}}=%{shift @_};
+    %{$self->{config}}=%{$self->{default_config}};
     $self->configure(@_);
 
     $self->{_gp}->{last_voltage}=undef;
@@ -29,6 +30,7 @@ sub configure {
     #   gp_max_step_per_second
     #   gp_min_volt
     #   gp_max_volt
+    #   qp_equal_level
     my $config=shift;
     if ((ref $config) =~ /HASH/) {
         for my $conf_name (keys %{$self->{default_config}}) {
@@ -53,18 +55,17 @@ sub set_voltage {
     
     if ($self->{config}->{gate_protect}) {
         $voltage=$self->sweep_to_voltage($voltage);
-        $self->{_gp}->{last_voltage}=$voltage;
     } else {
         $self->_set_voltage($voltage);
-        $self->{_gp}->{last_voltage}=$voltage;
     }
+    $self->{_gp}->{last_voltage}=$voltage;
     return $voltage;
 }
 
 sub step_to_voltage {
     my $self=shift;
     my $voltage=shift;
-    
+
     my $voltpersec=abs($self->{config}->{gp_max_volt_per_second});
     my $voltperstep=abs($self->{config}->{gp_max_volt_per_step});
     my $steppersec=abs($self->{config}->{gp_max_step_per_second});
@@ -84,7 +85,7 @@ sub step_to_voltage {
     }
 
     #already there
-    return $voltage if $voltage == $last_v;
+    return $voltage if (abs($voltage - $last_v) < $self->{config}->{gp_equal_level});
 
     #do the magic step calculation
     my $wait = ($voltpersec < $voltperstep * $steppersec) ?
@@ -101,14 +102,15 @@ sub step_to_voltage {
         usleep ( ( 1e6*$wait+$last_t-$now ) );
         ($ns,$nmu)=gettimeofday();
         $now=$ns*1e6+$nmu;
-        $self->{_gp}->{last_settime_mus}=$now;
-    }
+    } 
+    $self->{_gp}->{last_settime_mus}=$now;
     
     #do one step
     if (abs($voltage-$last_v) > abs($step)) {
         $voltage=$last_v+$step;
     }
     $voltage=0+sprintf("%.10f",$voltage);
+    
     $self->_set_voltage($voltage);
     $self->{_gp}->{last_voltage}=$voltage;
     return $voltage;
@@ -123,7 +125,7 @@ sub sweep_to_voltage {
     while($cont) {
         $cont=0;
         my $this=$self->step_to_voltage($voltage);
-        if (!($last) || ($last!=$this)) {
+        unless ((defined $last) && (abs($last-$this) < $self->{config}->{gp_equal_level})) {
             $last=$this;
             $cont++;
         }
@@ -166,7 +168,8 @@ Lab::Instrument::Source - Base class for voltage source instruments
 
 This class implements a general voltage source. It is meant to be
 inherited by instrument classes (virtual instruments), that implement
-real voltage sources (e.g. the L<Lab::Instrument::Yokogawa7651> class).
+real voltage sources (e.g. the
+L<Lab::Instrument::Yokogawa7651|Lab::Instrument::Yokogawa7651> class).
 
 The class provides a unified user interface for those virtual voltage sources
 to support the exchangeability of instruments.
@@ -175,51 +178,88 @@ Additionally, this class provides a safety mechanism called C<gate_protect>
 to protect delicate samples. It includes automatic limitations of sweep rates,
 voltage step sizes, minimal and maximal voltages.
 
-=head1 CONSTRUCTORS
+As a user you are NOT supposed to create instances of this class, but rather
+instances of instrument classes that internally use this module!
 
-    $self=new Lab::Instrument::SafeSource(\%default_config,\%config);
+=head1 CONSTRUCTOR
 
-The constructor will only be used by instrument driver that inherit this class,
+  $self=new Lab::Instrument::SafeSource(\%default_config,\%config);
+
+The constructor will only be used by instrument drivers that inherit this class,
 not by the user.
+
+The instrument driver (e.g. L<Lab::Instrument::KnickS252|Lab::Instrument::KnickS252>)
+has a constructor like this:
+
+  $knick=new Lab::Instrument::KnickS252({
+    GPIB_board      => $board,
+    GPIB_address    => $address,
+    
+    gate_protect    => $gp,
+    [...]
+  });
 
 =head1 METHODS
 
 =head2 configure
 
-    $self->configure(\%config);
+  $self->configure(\%config);
 
-Supported configure options are all related to the included safety mechanism:
+Supported configure options are all related to the safety mechanism:
 
 =over 2
 
 =item gate_protect
 
+Whether to use the automatic sweep speed limitation. Can be set to 0 (off) or 1 (on).
+If it is turned on, the output voltage will not be changed faster than allowed
+by the C<gp_max_volt_per_second>, C<gp_max_volt_per_step> and C<gp_max_step_per_second>
+values. These three parameters overdefine the allowed speed. Only two
+parameters are necessary. If all three are set, the smalles allowed sweep rate
+is chosen.
+
+Additionally the maximal and minimal output voltages are limited.
+
+This mechanism is useful to protect sensible samples, that are destroyed by
+abrupt voltage changes. One example is gate electrodes on semiconductor electronics
+samples, hence the name.
+
 =item gp_max_volt_per_second
+
+How much the output voltage is allowed to change per second.
 
 =item gp_max_volt_per_step
 
+How much the output voltage is allowed to change per step.
+
 =item gp_max_step_per_second
+
+How many steps are allowed per second.
 
 =item gp_min_volt
 
+The smallest allowed output voltage.
+
 =item gp_max_volt
+
+The largest allowed output voltage.
 
 =back
 
 =head2 set_voltage
 
-    $new_volt=$self->set_voltage($voltage);
+  $new_volt=$self->set_voltage($voltage);
 
-Sets the output to $voltage (in Volt). If the configure option C<gate_protect> is set
+Sets the output to C<$voltage> (in Volts). If the configure option C<gate_protect> is set
 to a true value, the safety mechanism takes into account the C<gp_max_volt_per_step>,
-C<gp_max_volt_per_second> etc. settings, by employing the sweep_to_voltage() method.
+C<gp_max_volt_per_second> etc. settings, by employing the C<sweep_to_voltage> method.
 
 Returns the actually set output voltage. This can be different from C<$voltage>, due
 to the C<gp_max_volt>, C<gp_min_volt> settings.
 
 =head2 step_to_voltage
 
-    $new_volt=$self->step_to_voltage($voltage);
+  $new_volt=$self->step_to_voltage($voltage);
 
 Makes one safe step in direction to C<$voltage>. The output voltage is not changed by more
 than C<gp_max_volt_per_step>. Before the voltage is changed, the methods waits if not
@@ -232,7 +272,7 @@ to the C<gp_max_volt>, C<gp_min_volt> settings.
 
 =head2 sweep_to_voltage
 
-    $new_volt=$self->sweep_to_voltage($voltage);
+  $new_volt=$self->sweep_to_voltage($voltage);
 
 This method sweeps the output voltage to the desired value and only returns then.
 Uses the L</step_to_voltage> method internally, so all discussions of config options
@@ -251,13 +291,23 @@ Probably many.
 
 =item L<Time::HiRes>
 
+Used internally for the sweep timing.
+
+=item L<Lab::Instrument::KnickS252>
+
+This class inherits the gate protection mechanism.
+
+=item L<Lab::Instrument::Yokogawa7651>
+
+This class inherits the gate protection mechanism.
+
 =back
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: Source.pm 268 2005-12-11 02:41:24Z schroeer $
+This is $Id: Source.pm 445 2006-06-25 21:07:02Z schroeer $
 
-Copyright 2004 Daniel Schröer (L<http://www.danielschroeer.de>)
+Copyright 2004-2006 Daniel Schröer (L<http://www.danielschroeer.de>)
 
 This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 

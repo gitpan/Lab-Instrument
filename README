@@ -1,5 +1,5 @@
 README for Lab::Instrument
-$VERSION = '1.00'
+$VERSION = '1.1'
 -----------------------------------------------------------------------
 
 This package builds on top of the Lab::VISA interface to the NI-VISA library.
@@ -9,7 +9,8 @@ GPIB, serial connection or ethernet. It provides general read(), write() and que
 
 Derived from Lab::Instrument there are specialized instrument classes
 (virtual instruments) such as Lab::Instrument::HP34401A, that offer even more high
-level comfort with methods as read_voltage().
+level comfort with methods like read_voltage().
+
 
 INSTALLATION
 
@@ -19,6 +20,7 @@ To install this module type the following:
    perl Build
    perl Build test
    perl Build install
+
 
 DEPENDENCIES
 

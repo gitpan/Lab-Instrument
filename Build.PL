@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-#$Id: Build.PL 268 2005-12-11 02:41:24Z schroeer $
+#$Id: Build.PL 476 2006-08-10 22:18:01Z schroeer $
 
 use strict;
 use Module::Build;
@@ -12,9 +12,9 @@ my $build=Module::Build->new(
         'Lab::VISA'   => '1.11',
         'Time::HiRes' => 0,
     },
-    test_files          => ['t/2_visa-instrument.t','t/3_source.t','t/4_dummysource.t'],
+    test_files          => ['t/3_source.t','t/4_dummysource.t'],
     script_files    	=> [],
     create_readme   	=> 0,
     create_makefile_pl	=> 'passthrough',
-    dist_author     	=> 'Daniel Schroeer <daniel@daimla1.de>');
+    dist_author     	=> 'Daniel Schroeer <schroeer@cpan.org>');
 $build->create_build_script;
