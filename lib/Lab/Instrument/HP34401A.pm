@@ -1,11 +1,11 @@
-#$Id: HP34401A.pm 339 2006-04-12 17:30:48Z schroeer $
+#$Id: HP34401A.pm 529 2006-10-07 20:31:17Z schroeer $
 
 package Lab::Instrument::HP34401A;
 
 use strict;
 use Lab::Instrument;
 
-our $VERSION = sprintf("0.%04d", q$Revision: 339 $ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision$ =~ / (\d+) /);
 
 sub new {
     my $proto = shift;
@@ -25,7 +25,7 @@ sub read_voltage_dc {
     $range="DEF" unless (defined $range);
     $resolution="DEF" unless (defined $resolution);
     
-    my $cmd=sprintf("MEASure:VOLTage:DC? %u,%f",$range,$resolution);
+    my $cmd=sprintf("MEASure:VOLTage:DC? %s,%s",$range,$resolution);
     my ($value)=split "\n",$self->{vi}->Query($cmd);
     return $value;
 }
@@ -115,9 +115,9 @@ sub reset {
 sub scroll_message {
     use Time::HiRes (qw/usleep/);
     my $self=shift;
-    my $message="            This perl instrument driver is copyright 2004/2005 by Daniel Schroeer.            ";
-    for (0..(length($message)-12)) {
-        $self->display_text(substr($message,$_,$_+11));
+    my $message=shift || "            This perl instrument driver is copyright 2004/2005 by Daniel Schroeer.            ";
+    for my $i (0..(length($message)-12)) {
+        $self->display_text(sprintf "%12.12s",substr($message,$i));
         usleep(100000);
     }
     $self->display_clear();
@@ -169,7 +169,7 @@ Range is given in terms of volts and can be C<[0.1|1|10|100|1000|MIN|MAX|DEF]>. 
 
 Resolution is given in terms of C<$range> or C<[MIN|MAX|DEF]>.
 C<$resolution=0.0001> means 4 1/2 digits for example.
-The best resolution is 100nV: C<$range=0.1>;C<$resolution=0.000001>.
+The best resolution is 100nV: C<$range=0.1>; C<$resolution=0.000001>.
 
 =back
 
@@ -223,6 +223,12 @@ Without parameter the displayed message is returned.
 
 Clear the message displayed on the front panel.
 
+=head2 scroll_message
+
+    $hp->scroll_message($message);
+
+Scrolls the message C<$message> on the display of the HP.
+
 =head2 beep
 
     $hp->beep();
@@ -262,7 +268,7 @@ probably many
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: HP34401A.pm 339 2006-04-12 17:30:48Z schroeer $
+This is $Id: HP34401A.pm 529 2006-10-07 20:31:17Z schroeer $
 
 Copyright 2004-2006 Daniel Schröer (L<http://www.danielschroeer.de>)
 

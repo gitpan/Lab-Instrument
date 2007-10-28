@@ -1,17 +1,17 @@
-#$Id: Yokogawa7651.pm 445 2006-06-25 21:07:02Z schroeer $
+#$Id: Yokogawa7651.pm 534 2006-11-10 17:03:50Z schroeer $
 
 package Lab::Instrument::Yokogawa7651;
 use strict;
 use Lab::Instrument;
 use Lab::Instrument::Source;
 
-our $VERSION = sprintf("0.%04d", q$Revision: 445 $ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision$ =~ / (\d+) /);
 
 our @ISA=('Lab::Instrument::Source');
 
 my $default_config={
     gate_protect            => 1,
-    qp_equal_level          => 1e-5,
+    gp_equal_level          => 1e-5,
     gp_max_volt_per_second  => 0.002,
     gp_max_volt_per_step    => 0.001,
     gp_max_step_per_second  => 2,
@@ -240,6 +240,8 @@ Returns a hash with the following keys:
     
 The value for each key is either 0 or 1, indicating the status of the instrument.
 
+=begin html
+
 =head1 INSTRUMENT SPECIFICATIONS
 
 =head2 DC voltage
@@ -321,6 +323,8 @@ Common mode rejection:
 
 Common mode rejection: 100nA/V or more (DC, 50/60Hz).
 
+=end html
+
 =head1 CAVEATS
 
 probably many
@@ -345,7 +349,7 @@ The Yokogawa7651 class is a SafeSource (L<SafeSource>)
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: Yokogawa7651.pm 445 2006-06-25 21:07:02Z schroeer $
+This is $Id: Yokogawa7651.pm 534 2006-11-10 17:03:50Z schroeer $
 
 Copyright 2004 Daniel Schröer (L<http://www.danielschroeer.de>)
 

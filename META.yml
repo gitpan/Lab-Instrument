@@ -1,8 +1,50 @@
---- #YAML:1.0
+---
 name: Lab-Instrument
-version: 1.1
+version: 1.2
 author:
-  - Daniel Schroeer <schroeer@cpan.org>
-abstract: 
+  - 'Daniel Schroeer <schroeer@cpan.org>'
+abstract: Virtual instruments
 license: perl
-generated_by: Module::Build version 0.2611, without YAML.pm
+resources:
+  license: http://dev.perl.org/licenses/
+requires:
+  Lab::VISA: 1.11
+  Time::HiRes: 0
+provides:
+  Lab::Instrument:
+    file: lib/Lab/Instrument.pm
+    version: 1.0000
+  Lab::Instrument::Dummysource:
+    file: lib/Lab/Instrument/Dummysource.pm
+    version: 0.0000
+  Lab::Instrument::HP34401A:
+    file: lib/Lab/Instrument/HP34401A.pm
+    version: 0.0000
+  Lab::Instrument::HP34970A:
+    file: lib/Lab/Instrument/HP34970A.pm
+    version: 0.0000
+  Lab::Instrument::HP8360:
+    file: lib/Lab/Instrument/HP8360.pm
+    version: 0.0339
+  Lab::Instrument::IOtech488:
+    file: lib/Lab/Instrument/IOtech488.pm
+    version: 0.0489
+  Lab::Instrument::IPS120_10:
+    file: lib/Lab/Instrument/IPS120_10.pm
+    version: 0.0000
+  Lab::Instrument::KnickS252:
+    file: lib/Lab/Instrument/KnickS252.pm
+    version: 0.0000
+  Lab::Instrument::SR780:
+    file: lib/Lab/Instrument/SR780.pm
+    version: 0.0000
+  Lab::Instrument::Source:
+    file: lib/Lab/Instrument/Source.pm
+    version: 1.0000
+  Lab::Instrument::Yokogawa7651:
+    file: lib/Lab/Instrument/Yokogawa7651.pm
+    version: 0.0000
+generated_by: Module::Build version 0.2808
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.2.html
+  version: 1.2

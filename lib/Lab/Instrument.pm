@@ -1,11 +1,11 @@
-#$Id: Instrument.pm 475 2006-08-10 22:06:46Z schroeer $
+#$Id: Instrument.pm 489 2006-08-13 15:07:14Z schroeer $
 
 package Lab::Instrument;
 
 use strict;
 use Lab::VISA;
 
-our $VERSION = sprintf("1.%04d", q$Revision: 475 $ =~ / (\d+) /);
+our $VERSION = sprintf("1.%04d", q$Revision$ =~ / (\d+) /);
 
 sub new {
     my $proto = shift;
@@ -142,7 +142,7 @@ Lab::Instrument - General VISA based instrument
 
  use Lab::Instrument;
  
- my $hp22 =  new Lab::Instrument(0,22); # gpib board 0, address 22
+ my $hp22 =  new Lab::Instrument(0,22); # GPIB board 0, address 22
  print $hp22->Query('*IDN?');
 
 =head1 DESCRIPTION
@@ -161,8 +161,12 @@ actual visa work. (All the instruments in the default package do so.)
 
 =head2 new
 
- $instrument=new Lab::Instrument($board,$addr);
- $instrument2=new Lab::Instrument({GPIB_board => $board, GPIB_address => $addr});
+ $instrument  = new Lab::Instrument($board,$addr);
+ 
+ $instrument2 = new Lab::Instrument({
+    GPIB_board   => $board,
+    GPIB_address => $addr
+ });
 
 Creates a new instrument object and open the instrument with GPIB address C<$addr>
 connected to the GPIB board C<$board> (usually 0). All instrument classes that
@@ -232,7 +236,7 @@ Probably many.
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: Instrument.pm 475 2006-08-10 22:06:46Z schroeer $
+This is $Id: Instrument.pm 489 2006-08-13 15:07:14Z schroeer $
 
 Copyright 2004-2006 Daniel Schröer (L<http://www.danielschroeer.de>)
 

@@ -1,11 +1,11 @@
-#$Id: HP34970A.pm 275 2005-12-13 18:43:50Z schroeer $
+#$Id: HP34970A.pm 489 2006-08-13 15:07:14Z schroeer $
 
 package Lab::Instrument::HP34970A;
 
 use strict;
 use Lab::Instrument;
 
-our $VERSION = sprintf("0.%04d", q$Revision: 275 $ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision$ =~ / (\d+) /);
 
 sub new {
     my $proto = shift;
@@ -116,7 +116,7 @@ Lab::Instrument::HP34970A - a HP/Agilent 34970A digital multimeter
 
 =head2 read_voltage_dc
 
-    $datum=$hp->read_voltage_dc($range,$resolution);
+    $datum=$hp->read_voltage_dc($range,$resolution,@scan_list);
 
 Preset and make a dc voltage measurement with the specified range
 and resolution.
@@ -131,7 +131,11 @@ Range is given in terms of volts and can be C<[0.1|1|10|100|1000|MIN|MAX|DEF]>. 
 
 Resolution is given in terms of C<$range> or C<[MIN|MAX|DEF]>.
 C<$resolution=0.0001> means 4 1/2 digits for example.
-The best resolution is 100nV: C<$range=0.1>;C<$resolution=0.000001>.
+The best resolution is 100nV: C<$range=0.1>; C<$resolution=0.000001>.
+
+=item @scan_list
+
+A list of channels to scan. See the instrument manual.
 
 =back
 
@@ -207,7 +211,7 @@ probably many
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: HP34970A.pm 275 2005-12-13 18:43:50Z schroeer $
+This is $Id: HP34970A.pm 489 2006-08-13 15:07:14Z schroeer $
 
 Copyright 2004-2006 Daniel Schröer (L<http://www.danielschroeer.de>)
 

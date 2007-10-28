@@ -1,10 +1,10 @@
-#$Id: Dummysource.pm 476 2006-08-10 22:18:01Z schroeer $
+#$Id: Dummysource.pm 477 2006-08-10 22:57:07Z schroeer $
 
 package Lab::Instrument::Dummysource;
 use strict;
 use Lab::Instrument::Source;
 
-our $VERSION = sprintf("0.%04d", q$Revision: 476 $ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision$ =~ / (\d+) /);
 
 our @ISA=('Lab::Instrument::Source');
 
@@ -82,7 +82,7 @@ Only developers can make use of this class.
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: Dummysource.pm 476 2006-08-10 22:18:01Z schroeer $
+This is $Id: Dummysource.pm 477 2006-08-10 22:57:07Z schroeer $
 
 Copyright 2005-2006 Daniel Schröer (L<http://www.danielschroeer.de>)
 

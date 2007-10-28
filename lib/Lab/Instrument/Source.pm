@@ -1,9 +1,9 @@
-#$Id: Source.pm 445 2006-06-25 21:07:02Z schroeer $
+#$Id: Source.pm 552 2006-12-06 10:28:35Z schroeer $
 package Lab::Instrument::Source;
 use strict;
 use Time::HiRes qw(usleep gettimeofday);
 
-our $VERSION = sprintf("1.%04d", q$Revision: 445 $ =~ / (\d+) /);
+our $VERSION = sprintf("1.%04d", q$Revision$ =~ / (\d+) /);
 
 sub new {
     my $proto = shift;
@@ -52,7 +52,6 @@ sub configure {
 sub set_voltage {
     my $self=shift;
     my $voltage=shift;
-    
     if ($self->{config}->{gate_protect}) {
         $voltage=$self->sweep_to_voltage($voltage);
     } else {
@@ -65,7 +64,6 @@ sub set_voltage {
 sub step_to_voltage {
     my $self=shift;
     my $voltage=shift;
-
     my $voltpersec=abs($self->{config}->{gp_max_volt_per_second});
     my $voltperstep=abs($self->{config}->{gp_max_volt_per_step});
     my $steppersec=abs($self->{config}->{gp_max_step_per_second});
@@ -76,7 +74,7 @@ sub step_to_voltage {
         $last_v=$self->get_voltage();
         $self->{_gp}->{last_voltage}=$last_v;
     }
-
+    
     if (defined($self->{config}->{gp_max_volt}) && ($voltage > $self->{config}->{gp_max_volt})) {
         $voltage = $self->{config}->{gp_max_volt};
     }
@@ -244,6 +242,10 @@ The smallest allowed output voltage.
 
 The largest allowed output voltage.
 
+=item qp_equal_level
+
+Voltages with a difference less than this value are considered equal.
+
 =back
 
 =head2 set_voltage
@@ -305,7 +307,7 @@ This class inherits the gate protection mechanism.
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: Source.pm 445 2006-06-25 21:07:02Z schroeer $
+This is $Id: Source.pm 552 2006-12-06 10:28:35Z schroeer $
 
 Copyright 2004-2006 Daniel Schröer (L<http://www.danielschroeer.de>)
 

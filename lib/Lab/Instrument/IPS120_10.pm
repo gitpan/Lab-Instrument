@@ -1,11 +1,11 @@
-#$Id: IPS120_10.pm 85 2005-11-10 23:35:43Z schroeer $
+#$Id: IPS120_10.pm 495 2006-08-14 15:46:01Z schroeer $
 
 package Lab::Instrument::IPS120_10;
 
 use strict;
 use Lab::Instrument;
 
-our $VERSION = sprintf("0.%04d", q$Revision: 85 $ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision$ =~ / (\d+) /);
 
 sub new {
     my $proto = shift;
@@ -236,11 +236,11 @@ This module hasn't been tested! If it quenches your magnet, don't complain to me
 
 =head2 set_current_sweep_rate($rate)
 
- amps/min
+ # in amps/min
 
 =head2 set_field_sweep_rate($rate)
 
- testa/min
+ # in tesla/min
 
 =head1 CAVEATS/BUGS
 
@@ -259,7 +259,7 @@ The IPS120_10 uses the Lab::Instrument class (L<Lab::Instrument>).
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: IPS120_10.pm 85 2005-11-10 23:35:43Z schroeer $
+This is $Id: IPS120_10.pm 495 2006-08-14 15:46:01Z schroeer $
 
 Copyright 2004-2006 Daniel Schröer (L<http://www.danielschroeer.de>)
 
