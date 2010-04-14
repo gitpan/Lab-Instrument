@@ -1,11 +1,12 @@
-#$Id: KnickS252.pm 552 2006-12-06 10:28:35Z schroeer $
+
+#$Id: KnickS252.pm 613 2010-04-14 20:40:41Z schroeer $
 
 package Lab::Instrument::KnickS252;
 use strict;
 use Lab::Instrument;
 use Lab::Instrument::Source;
 
-our $VERSION = sprintf("0.%04d", q$Revision$ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision: 613 $ =~ / (\d+) /);
 
 our @ISA=('Lab::Instrument::Source');
 
@@ -15,6 +16,8 @@ my $default_config={
     gp_max_volt_per_second  => 0.002,
     gp_max_volt_per_step    => 0.001,
     gp_max_step_per_second  => 2,
+    gp_max_volt		    => 0.100,
+    gp_min_volt	 	    => -1.500,
 };
 
 sub new {
@@ -135,7 +138,7 @@ Inherits from SafeSource (L<SafeSource>).
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: KnickS252.pm 552 2006-12-06 10:28:35Z schroeer $
+This is $Id: KnickS252.pm 613 2010-04-14 20:40:41Z schroeer $
 
 Copyright 2004/2005 Daniel Schröer (L<http://www.danielschroeer.de>)
 

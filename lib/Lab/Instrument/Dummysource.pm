@@ -1,12 +1,13 @@
-#$Id: Dummysource.pm 477 2006-08-10 22:57:07Z schroeer $
+#$Id: Dummysource.pm 613 2010-04-14 20:40:41Z schroeer $
 
 package Lab::Instrument::Dummysource;
 use strict;
 use Lab::Instrument::Source;
 
-our $VERSION = sprintf("0.%04d", q$Revision$ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision: 613 $ =~ / (\d+) /);
 
 our @ISA=('Lab::Instrument::Source');
+our $maxchannels=16;
 
 my $default_config={
     gate_protect            => 1,
@@ -28,35 +29,47 @@ sub new {
     while (my ($k,$v)=each %{$self->configure()}) {
         print "DS:   $k -> $v\n";
     }
-    $self->{last_volt}=0;
-    $self->{last_range}=1;
+    for (my $i=1; $i<=$maxchannels; $i++) {
+      my $tmp="last_volt_$i";
+      $self->{$tmp}=0;
+      my $tmp="last_range_$i";
+      $self->{$tmp}=1;
+    }
     return $self
 }
 
 sub _set_voltage {
     my $self=shift;
     my $voltage=shift;
-    $self->{last_volt}=$voltage;
-    print "DS: _setting virtual voltage to $voltage\n";
+    my $channel=shift;
+    my $tmp="last_volt_$channel";
+    $self->{$tmp}=$voltage;
+    print "DS: _setting virtual voltage $channel to $voltage\n";
 }
 
 sub _get_voltage {
     my $self=shift;
-    print "DS: _getting virtual voltage: $$self{last_volt}\n";
-    return $self->{last_volt};
+    my $channel=shift;
+    my $tmp="last_volt_$channel";
+    print "DS: _getting virtual voltage $channel: $$self{$tmp}\n";
+    return $self->{$tmp};
 }
 
 sub set_range {
     my $self=shift;
     my $range=shift;
-    $self->{last_range}=$range;
-    print "DS: setting virtual range to $range\n";
+    my $channel=shift;
+    my $tmp="last_range_$channel";
+    $self->{$tmp}=$range;
+    print "DS: setting virtual range of channel $channel to $range\n";
 }
 
 sub get_range {
     my $self=shift;
-    print "DS: getting virtual range: $$self{last_range}\n";
-    return $self->{last_range};
+    my $channel=shift;
+    my $tmp="last_range_$channel";
+    print "DS: getting virtual range: $$self{$tmp}\n";
+    return $self->{$tmp};
 }
 
 1;
@@ -70,7 +83,7 @@ Lab::Instrument::Dummysource - Dummy voltage source
 The Lab::Instrument::Dummysource class implements a dummy voltage source
 that does nothing but fullfill testing purposes.
 
-Only developers can make use of this class.
+Only developers will ever make use of this class.
 
 =head1 SEE ALSO
 
@@ -82,9 +95,9 @@ Only developers can make use of this class.
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: Dummysource.pm 477 2006-08-10 22:57:07Z schroeer $
+This is $Id: Dummysource.pm 613 2010-04-14 20:40:41Z schroeer $
 
-Copyright 2005-2006 Daniel Schröer (L<http://www.danielschroeer.de>)
+Copyright 2005-2006 Daniel SchrÃ¶er (L<http://www.danielschroeer.de>)
 
 This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 

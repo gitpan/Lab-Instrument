@@ -1,4 +1,4 @@
-#$Id: SR780.pm 339 2006-04-12 17:30:48Z schroeer $
+#$Id: SR780.pm 613 2010-04-14 20:40:41Z schroeer $
 
 package Lab::Instrument::SR780;
 
@@ -6,7 +6,7 @@ use strict;
 use Lab::Instrument;
 use Time::HiRes qw (usleep);
 
-our $VERSION = sprintf("0.%04d", q$Revision$ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision: 613 $ =~ / (\d+) /);
 
 sub new {
     my $proto = shift;
@@ -274,7 +274,7 @@ probably many
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: SR780.pm 339 2006-04-12 17:30:48Z schroeer $
+This is $Id: SR780.pm 613 2010-04-14 20:40:41Z schroeer $
 
 Copyright 2006 Daniel Schröer (L<http://www.danielschroeer.de>)
 

@@ -1,4 +1,4 @@
-#$Id$
+#$Id: IOtech488.pm 613 2010-04-14 20:40:41Z schroeer $
 
 package Lab::Instrument::IOtech488;
 use strict;
@@ -6,7 +6,7 @@ use Lab::Instrument;
 use Lab::Instrument::Source;
 use Time::HiRes qw /usleep/;
 
-our $VERSION = sprintf("0.%04d", q$Revision: 489 $ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision: 613 $ =~ / (\d+) /);
 
 our @ISA=('Lab::Instrument::Source');
 
@@ -16,8 +16,6 @@ my $default_config={
     gp_max_volt_per_second  => 0.002,
     gp_max_volt_per_step    => 0.001,
     gp_max_step_per_second  => 2,
-    
-    channel                 => 1,
 };
 
 sub new {
@@ -28,37 +26,47 @@ sub new {
     bless ($self, $class);
 
     $self->{vi}=new Lab::Instrument(@args);
-    
     return $self
 }
 
 sub _set_voltage {
     my $self=shift;
     my $voltage=shift;
+    my $channel=shift;
     
-    my $cmd='P'.$self->{channel}.'X';
+    my $cmd='P'.$channel.'X';
     $self->{vi}->Write($cmd);   # select channel
     
     usleep(10000);  # wait; adjust this
-    
-    $cmd="V".$voltage."X";
+
+    $voltage *= -1;	# outputs are inverted !!    
+
+    $cmd="V ".$voltage."X";
     $self->{vi}->Write($cmd);   # set voltage
+
+
 }
 
 sub _get_voltage {
     my $self=shift;
-    
-    my $cmd='P'.$self->{channel}.'X';
+    my $channel=shift;
+
+    my $cmd='P'.$channel.'X';
     $self->{vi}->Write($cmd);   # select channel
     
     usleep(10000);  # wait; adjust this
     
-    return $self->{vi}->Query('V?X'); #  read voltage
+    my $voltage = $self->{vi}->Query('V?X'); #  read voltage
+    $voltage =~ s/V//;
+    chomp $voltage;
+    $voltage *= -1;      # outputs are inverted !!
+    return $voltage;
 }
 
 sub set_range {
     my $self=shift;
     my $range=shift;
+    my $channel=shift;
     
     # Ranges
     # 1 -  1 volt bipolar
@@ -70,7 +78,7 @@ sub set_range {
     # 7 -  5 volt unipolar
     # 8 - 10 volt unipolar
     
-    my $cmd='P'.$self->{channel}.'X';
+    my $cmd='P'.$channel.'X';
     $self->{vi}->Write($cmd);   # select channel
     
     usleep(10000);  # wait; adjust this
@@ -81,8 +89,9 @@ sub set_range {
 
 sub get_range {
     my $self=shift;
+    my $channel=shift;
 
-    my $cmd='P'.$self->{channel}.'X';
+    my $cmd='P'.$channel.'X';
     $self->{vi}->Write($cmd);   # select channel
     
     usleep(10000);  # wait; adjust this
@@ -93,6 +102,11 @@ sub get_range {
 sub get_info {
     my $self=shift;
     return $self->{vi}->Query('U9X');
+}
+
+sub get_error {
+    my $self=shift;
+    return $self->{vi}->Query('E?X');
 }
 
 sub reset {
@@ -110,40 +124,43 @@ Lab::Instrument::IOtech488 - IOtech DAC488HR four channel voltage source
 
     use Lab::Instrument::IOtech488;
     
-    my $gate14=new Lab::Instrument::IOtech488({
+    my $gates=new Lab::Instrument::IOtech488({
         GPIB_board   => 0,
         GPIB_address => 11,
-        channel      => 1,
     });
-    $gate14->set_range(6);  # 2 volt unipolar
+    $gates->set_range(1,6);  # 2 volt unipolar for channel 1
     
-    $gate14->set_voltage(0.745);
+    $gates->set_voltage(1,0.745);
     
-    print $gate14->get_voltage();
+    print $gates->get_voltage(1);
+
+    my $plunger=new Lab::Instrument::Source($gates, 3);
+
+    $plunger->set_voltage(-0.5);
+
 
 =head1 DESCRIPTION
 
 The Lab::Instrument::IOtech488 class implements an interface to the
-7651 voltage and current source by Yokogawa. This class derives from
+IOtech DAC488HR four-channel voltage source. This class derives from
 L<Lab::Instrument::Source> and provides all functionality described there.
 
 =head1 CONSTRUCTORS
 
 =head2 new({})
 
- my $gate14=new Lab::Instrument::IOtech488({
+ my $gates=new Lab::Instrument::IOtech488({
      GPIB_board   => 0,
      GPIB_address => 11,
-     channel      => 1,
  });
 
 =head1 METHODS
 
-=head2 set_voltage($voltage)
+=head2 set_voltage($voltage,$channel)
 
-=head2 get_voltage()
+=head2 get_voltage($channel)
 
-=head2 set_range($range)
+=head2 set_range($range,$channel)
 
     # Ranges
     # 1 -  1 volt bipolar
@@ -181,9 +198,9 @@ probably many
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id$
+This is $Id: IOtech488.pm 613 2010-04-14 20:40:41Z schroeer $
 
-Copyright 2006 Daniel Schröer (L<http://www.danielschroeer.de>)
+Copyright 2006 Daniel Schröer (L<http://www.danielschroeer.de>), 2009-2010 Daniela Taubert
 
 This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 
