@@ -1,4 +1,4 @@
-#$Id: MagnetSupply.pm 613 2010-04-14 20:40:41Z schroeer $
+#$Id: MagnetSupply.pm 650 2010-04-22 19:09:27Z schroeer $
 
 # edited by David Borowsky, David.Borowsky@physik.uni-muenchen.de
 # last edit: 14.01.2010
@@ -11,7 +11,7 @@
 package Lab::Instrument::MagnetSupply;
 use strict;
 
-our $VERSION = sprintf("1.%04d", q$Revision: 613 $ =~ / (\d+) /);
+our $VERSION = sprintf("1.%04d", q$Revision: 650 $ =~ / (\d+) /);
 
 sub new {
     my $proto = shift;
@@ -303,7 +303,11 @@ sub _get_sweeprate {
     die '_get_sweeprate not implemented for this instrument';
 }
 
+=head1 NAME
 
+Lab::Instrument::MagnetSupply - Base class for magnet power supply instruments
+
+=cut
 
 
 1;

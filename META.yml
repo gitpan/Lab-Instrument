@@ -1,7 +1,7 @@
 ---
-abstract: 'Lab::Instrument offers an abstract interface to an instrument that is connected via GPIB, serial connection, ethernet, USB, or whatever else the NI-VISA library supports. In addition Oxford Instruments IsoBus is also supported.'
+abstract: 'Instrument drivers for Lab::VISA'
 author:
-  - 'Daniel Schroeer <schroeer@cpan.org>'
+  - 'Daniel Schröer <schroeer@cpan.org>'
 configure_requires:
   Module::Build: 0.36
 generated_by: 'Module::Build version 0.3603'
@@ -13,7 +13,7 @@ name: Lab-Instrument
 provides:
   Lab::Instrument:
     file: lib/Lab/Instrument.pm
-    version: 1.0612
+    version: 1.0650
   Lab::Instrument::Agilent81134A:
     file: lib/Lab/Instrument/Agilent81134A.pm
     version: 0.0613
@@ -25,7 +25,7 @@ provides:
     version: 0.0613
   Lab::Instrument::HP34411A:
     file: lib/Lab/Instrument/HP34411A.pm
-    version: 0.0613
+    version: 0.0650
   Lab::Instrument::HP34420A:
     file: lib/Lab/Instrument/HP34420A.pm
     version: 0.0613
@@ -34,57 +34,55 @@ provides:
     version: 0.0613
   Lab::Instrument::HP34970A:
     file: lib/Lab/Instrument/HP34970A.pm
-    version: 0.0613
+    version: 0.0650
   Lab::Instrument::HP8360:
     file: lib/Lab/Instrument/HP8360.pm
-    version: 0.0613
+    version: 0.0650
   Lab::Instrument::ILM:
     file: lib/Lab/Instrument/ILM.pm
     version: 0.0613
   Lab::Instrument::IOtech488:
     file: lib/Lab/Instrument/IOtech488.pm
-    version: 0.0613
+    version: 0.0650
   Lab::Instrument::IPS12010new:
     file: lib/Lab/Instrument/IPS12010new.pm
-    version: 0.0613
+    version: 0.0650
   Lab::Instrument::ITC503:
     file: lib/Lab/Instrument/ITC503.pm
-    version: 0.0613
+    version: 0.0618
   Lab::Instrument::IsoBus:
     file: lib/Lab/Instrument/IsoBus.pm
     version: 0.0613
   Lab::Instrument::KnickS252:
     file: lib/Lab/Instrument/KnickS252.pm
-    version: 0.0613
+    version: 0.0650
   Lab::Instrument::Lakeshore336:
     file: lib/Lab/Instrument/Lakeshore336.pm
-    version: 0.0613
+    version: 0.0650
   Lab::Instrument::Lakeshore370:
     file: lib/Lab/Instrument/Lakeshore370.pm
-    version: 0.0613
+    version: 0.0650
   Lab::Instrument::MagnetSupply:
     file: lib/Lab/Instrument/MagnetSupply.pm
-    version: 1.0613
+    version: 1.0650
   Lab::Instrument::SR620:
     file: lib/Lab/Instrument/SR620.pm
+    version: 0.0650
   Lab::Instrument::SR780:
     file: lib/Lab/Instrument/SR780.pm
-    version: 0.0613
+    version: 0.0650
   Lab::Instrument::SR830:
     file: lib/Lab/Instrument/SR830.pm
-    version: 0.0613
+    version: 0.0650
   Lab::Instrument::SRS_SIM928:
     file: lib/Lab/Instrument/SRS_SIM928.pm
-    version: 0.0613
+    version: 0.0650
   Lab::Instrument::Source:
     file: lib/Lab/Instrument/Source.pm
-    version: 1.0613
-  Lab::Instrument::TMRC2:
-    file: lib/Lab/Instrument/TMRC2.pm
-    version: 0.0613
+    version: 1.0650
   Lab::Instrument::TRMC2:
     file: lib/Lab/Instrument/TRMC2.pm
-    version: 0.0613
+    version: 0.0650
   Lab::Instrument::Yokogawa7651:
     file: lib/Lab/Instrument/Yokogawa7651.pm
     version: 0.0613
@@ -92,5 +90,8 @@ requires:
   Lab::VISA: 2.03
   Time::HiRes: 0
 resources:
+  MailingList: https://www-mailman.uni-regensburg.de/mailman/listinfo/lab-visa-users
+  bugtracker: http://rt.cpan.org/NoAuth/Bugs.html?Dist=Lab-Instrument
+  homepage: http://labvisa.de
   license: http://dev.perl.org/licenses/
-version: 2.00
+version: 2.01

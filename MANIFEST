@@ -1,4 +1,5 @@
 Build.PL
+Changes
 lib/Lab/Instrument.pm
 lib/Lab/Instrument/Agilent81134A.pm
 lib/Lab/Instrument/Dummysource.pm
@@ -22,11 +23,10 @@ lib/Lab/Instrument/SR620.pm
 lib/Lab/Instrument/SR780.pm
 lib/Lab/Instrument/SR830.pm
 lib/Lab/Instrument/SRS_SIM928.pm
-lib/Lab/Instrument/TMRC2.pm
 lib/Lab/Instrument/TRMC2.pm
 lib/Lab/Instrument/Yokogawa7651.pm
 MANIFEST			This list of files
-META.yml
 README
 t/3_source.t
 t/4_dummysource.t
+META.yml

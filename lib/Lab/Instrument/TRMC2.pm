@@ -1,4 +1,4 @@
-#$Id: TRMC2.pm 613 2010-04-14 20:40:41Z schroeer $
+#$Id: TRMC2.pm 650 2010-04-22 19:09:27Z schroeer $
 
 package Lab::Instrument::TRMC2;
 
@@ -8,7 +8,7 @@ use Lab::Instrument;
 use IO::File;
 use Time::HiRes qw/usleep/;
 use Time::HiRes qw/sleep/;
-our $VERSION = sprintf("0.%04d", q$Revision: 613 $ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision: 650 $ =~ / (\d+) /);
 
 my $WAIT=0.3; #sec. waiting time for each reading;
 my $mounted=0;	# Ist sie schon mal angemeldet
@@ -378,9 +378,9 @@ probably many
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: TRMC2.pm 613 2010-04-14 20:40:41Z schroeer $
+This is $Id: TRMC2.pm 650 2010-04-22 19:09:27Z schroeer $
 
-Copyright 2010 David Kalok and Andreas K. HÃ¼ttel (L<http://www.akhuettel.de/>)
+Copyright 2010 David Kalok and Andreas K. Hüttel (L<http://www.akhuettel.de/>)
 
 This library is free software; you can redistribute it and/or modify it under the same
 terms as Perl itself.

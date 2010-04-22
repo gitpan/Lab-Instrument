@@ -4,7 +4,7 @@ use strict;
 use Lab::Instrument;
 use Time::HiRes qw (usleep);
 
-our $VERSION = sprintf("0.%04d", q$Revision: 613 $ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision: 650 $ =~ / (\d+) /);
 
 sub new {
     my $proto = shift;
@@ -119,9 +119,7 @@ probably many
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: Lakeshore336.pm 613 2010-04-14 20:40:41Z schroeer $
-
-#Copyright 2006 Daniel Schröer (L<http://www.danielschroeer.de>)
+This is $Id: Lakeshore336.pm 650 2010-04-22 19:09:27Z schroeer $
 
 This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 

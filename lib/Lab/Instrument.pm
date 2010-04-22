@@ -1,4 +1,4 @@
-#$Id: Instrument.pm 612 2010-04-14 20:30:26Z schroeer $
+#$Id: Instrument.pm 650 2010-04-22 19:09:27Z schroeer $
 
 package Lab::Instrument;
 
@@ -6,7 +6,7 @@ use strict;
 use Lab::VISA;
 use Lab::Instrument::IsoBus;
 use Time::HiRes qw (usleep sleep);
-our $VERSION = sprintf("1.%04d", q$Revision: 612 $ =~ / (\d+) /);
+our $VERSION = sprintf("1.%04d", q$Revision: 650 $ =~ / (\d+) /);
 
 our $WAIT_STATUS=10;#usec;
 our $WAIT_QUERY=10;#usec;
@@ -400,10 +400,10 @@ Probably many.
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: Instrument.pm 612 2010-04-14 20:30:26Z schroeer $
+This is $Id: Instrument.pm 650 2010-04-22 19:09:27Z schroeer $
 
-Copyright 2004-2006 Daniel Schröer <schroeer@cpan.org>, 
-2009-2010 Andreas K. Hüttel (L<http://www.akhuettel.de/>) and David Kalok
+ Copyright 2004-2006 Daniel Schröer <schroeer@cpan.org>, 
+           2009-2010 Daniel Schröer, Andreas K. Hüttel (L<http://www.akhuettel.de/>) and David Kalok
 
 This library is free software; you can redistribute it and/or modify it under the same
 terms as Perl itself.

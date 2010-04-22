@@ -1,12 +1,12 @@
 
-#$Id: KnickS252.pm 613 2010-04-14 20:40:41Z schroeer $
+#$Id: KnickS252.pm 650 2010-04-22 19:09:27Z schroeer $
 
 package Lab::Instrument::KnickS252;
 use strict;
 use Lab::Instrument;
 use Lab::Instrument::Source;
 
-our $VERSION = sprintf("0.%04d", q$Revision: 613 $ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision: 650 $ =~ / (\d+) /);
 
 our @ISA=('Lab::Instrument::Source');
 
@@ -138,9 +138,9 @@ Inherits from SafeSource (L<SafeSource>).
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: KnickS252.pm 613 2010-04-14 20:40:41Z schroeer $
+This is $Id: KnickS252.pm 650 2010-04-22 19:09:27Z schroeer $
 
-Copyright 2004/2005 Daniel Schröer (L<http://www.danielschroeer.de>)
+Copyright 2004/2005 Daniel Schröer (<schroeer@cpan.org>)
 
 This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 

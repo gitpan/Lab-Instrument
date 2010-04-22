@@ -1,4 +1,4 @@
-#$Id: IPS12010new.pm 613 2010-04-14 20:40:41Z schroeer $
+#$Id: IPS12010new.pm 650 2010-04-22 19:09:27Z schroeer $
 
 package Lab::Instrument::IPS12010new;
 
@@ -8,7 +8,7 @@ use Lab::Instrument;
 use Lab::Instrument::MagnetSupply;
 use Time::HiRes qw (usleep);
 
-our $VERSION = sprintf("0.%04d", q$Revision: 613 $ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision: 650 $ =~ / (\d+) /);
 
 our @ISA=('Lab::Instrument::MagnetSupply');
 
@@ -339,6 +339,12 @@ sub _get_persistent_magnet_current {
 	}
 	return(($self->ips_read_parameter(16)));
 }
+
+=head1 NAME
+
+Lab::Instrument::IPS12010new - IPS 120-10 superconducting magnet supply
+
+=cut
 
 
 1;

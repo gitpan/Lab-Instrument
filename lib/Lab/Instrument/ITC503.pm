@@ -1,4 +1,4 @@
-#$Id: ITC503.pm 613 2010-04-14 20:40:41Z schroeer $
+#$Id: ITC503.pm 618 2010-04-15 10:16:04Z huettel $
 
 package Lab::Instrument::ITC503;
 
@@ -6,7 +6,7 @@ use strict;
 use Lab::VISA;
 use Lab::Instrument;
 
-our $VERSION = sprintf("0.%04d", q$Revision: 613 $ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision: 618 $ =~ / (\d+) /);
 
 
 my $RuO2_Cernox=1.45; #K Sensor 3
@@ -297,7 +297,7 @@ sub itc_clear_sweep_table {
 
 =head1 NAME
 
-Lab::Instrument::ITC - Oxford Instruments ILM Intelligent temperature control
+Lab::Instrument::ITC - Oxford Instruments ITC Intelligent Temperature Control
 
 =head1 SYNOPSIS
 
@@ -325,7 +325,7 @@ probably many
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: ITC503.pm 613 2010-04-14 20:40:41Z schroeer $
+This is $Id: ITC503.pm 618 2010-04-15 10:16:04Z huettel $
 
 Copyright 2010 David Kalok and Andreas K. Hüttel (L<http://www.akhuettel.de/>)
 

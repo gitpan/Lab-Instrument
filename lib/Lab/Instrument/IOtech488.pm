@@ -1,4 +1,4 @@
-#$Id: IOtech488.pm 613 2010-04-14 20:40:41Z schroeer $
+#$Id: IOtech488.pm 650 2010-04-22 19:09:27Z schroeer $
 
 package Lab::Instrument::IOtech488;
 use strict;
@@ -6,7 +6,7 @@ use Lab::Instrument;
 use Lab::Instrument::Source;
 use Time::HiRes qw /usleep/;
 
-our $VERSION = sprintf("0.%04d", q$Revision: 613 $ =~ / (\d+) /);
+our $VERSION = sprintf("0.%04d", q$Revision: 650 $ =~ / (\d+) /);
 
 our @ISA=('Lab::Instrument::Source');
 
@@ -77,6 +77,10 @@ sub set_range {
     # 6 -  2 volt unipolar
     # 7 -  5 volt unipolar
     # 8 - 10 volt unipolar
+    
+    # TODO: since the documentation says
+    # that the following sets the output to zero
+    # it should probably set_voltage(0) first
     
     my $cmd='P'.$channel.'X';
     $self->{vi}->Write($cmd);   # select channel
@@ -198,9 +202,9 @@ probably many
 
 =head1 AUTHOR/COPYRIGHT
 
-This is $Id: IOtech488.pm 613 2010-04-14 20:40:41Z schroeer $
+This is $Id: IOtech488.pm 650 2010-04-22 19:09:27Z schroeer $
 
-Copyright 2006 Daniel Schröer (L<http://www.danielschroeer.de>), 2009-2010 Daniela Taubert
+Copyright 2006-2008 Daniel Schröer (<schroeer@cpan.org>), 2009-2010 Daniel Schröer, Daniela Taubert
 
 This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 
